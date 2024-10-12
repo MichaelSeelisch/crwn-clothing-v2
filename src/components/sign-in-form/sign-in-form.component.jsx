@@ -23,20 +23,16 @@ const SignInForm = () => {
         setFormFields(defaultFormFields);
     }
 
-    const signInWitGoogle = async() => {
-		const { user } = await signInWithGooglePopup();
-
-		// eslint-disable-next-line
-		const userDocRef = await createUserDocumentFromAuth(user);
+    const signInWithGoogle = async() => {
+		await signInWithGooglePopup();
 	}
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
         try {
-			const response = await signInAuthUserWithEmailAndPassword(email, password);
-
-			console.log(response);
+            // eslint-disable-next-line
+			const { user } = await signInAuthUserWithEmailAndPassword(email, password);
 
            	resetFormFields();
         } catch(error) {
@@ -85,7 +81,7 @@ const SignInForm = () => {
                     <Button
                         type='button'
                         buttonType='google'
-                        onClick={signInWitGoogle}>
+                        onClick={signInWithGoogle}>
                         Google sign in
                     </Button>
                 </div>
