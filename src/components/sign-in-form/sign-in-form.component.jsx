@@ -36,7 +36,7 @@ const SignInForm = () => {
 
            	resetFormFields();
         } catch(error) {
-            if(error.code === 'auth/invalid-credential') {
+            if (error.code === 'auth/invalid-credential') {
                 alert('incorrect password or email');
             }
         }
