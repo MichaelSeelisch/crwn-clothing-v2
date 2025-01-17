@@ -1,63 +1,70 @@
-import './checkout-item.styles.scss';
+import { useDispatch } from 'react-redux';
 
-import { useContext } from 'react';
+import {
+	addItemToCart,
+	clearItemFromCart,
+	removeItemFromCart,
+} from '../../store/cart/cart.slice';
 
-import { CartContext } from '../../contexts/cart.context';
+import {
+	Arrow,
+	BaseSpan,
+	CheckoutItemContainer,
+	ImageContainer,
+	Quantity,
+	RemoveButton,
+	Value,
+} from './checkout-item.styles';
 
 const CheckoutItem = ({ cartItem }) => {
 	const { name, imageUrl, price, quantity } = cartItem;
-
-	const { clearItemFromCart, addItemToCart, removeItemFromCart } = useContext(CartContext);
+	const dispatch = useDispatch();
 
 	const clearItemHandler = () => {
-		clearItemFromCart(cartItem);
+		return(
+			dispatch(clearItemFromCart(cartItem))
+		);
 	}
 
 	const addItemHandler = () => {
-		addItemToCart(cartItem);
+		return(
+			dispatch(addItemToCart(cartItem))
+		);
 	}
 
 	const removeItemHandler = () => {
-		removeItemFromCart(cartItem);
+		return(
+			dispatch(removeItemFromCart(cartItem))
+		);
 	}
 
 	return (
-		<div className='checkout-item-container'>
-			<div className='image-container'>
-				<img 
-					src={imageUrl}
-					alt={`${name}`}
-				/>
-			</div>
+		<CheckoutItemContainer>
+			<ImageContainer>
+				<img src={imageUrl} alt={`${name}`} />
+			</ImageContainer>
 
-			<span className='name'> {name} </span>
-			<span className='quantity'>
-				<div 
-					className='arrow'
-					onClick={removeItemHandler}
-				>
+			<BaseSpan> {name} </BaseSpan>
+
+			<Quantity>
+				<Arrow onClick={removeItemHandler}>
 					&#10094;
-				</div>
-				<span className='value'>
-					{quantity}
-				</span>
-				<div 
-					className='arrow'
-					onClick={addItemHandler}
-				>
-					&#10095;
-				</div>
-			</span>
-			<span className='price'> {price} </span>
+				</Arrow>
 
-			<div 
-				className='remove-button'
-				onClick={clearItemHandler}
-			>
+				<Value>{quantity}</Value>
+
+				<Arrow onClick={addItemHandler}>
+					&#10095;
+				</Arrow>
+			</Quantity>
+
+			<BaseSpan> {price}</BaseSpan>
+
+			<RemoveButton onClick={clearItemHandler}>
 				&#10005;
-			</div>
-		</div>
-	)
-}
+			</RemoveButton>
+		</CheckoutItemContainer>
+	);
+};
 
 export default CheckoutItem;
